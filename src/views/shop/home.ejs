@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="/css/main.css">
+    <script
+  src="https://code.jquery.com/jquery-3.6.4.js"
+  integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+  crossorigin="anonymous">
+</script>
+</head>
+
+<body>
+    <%- include('../shop/menuShop.ejs') %>
+    <div class="container">
+      <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <%for(let i=0;i<sliders.length;i++){%>
+            <div class="carousel-item <%=i===0?'active':''%>">
+              <img class="slider-image" src="<%=sliders[i].image%>" alt="">
+              <div class="carousel-caption text-warning d-none d-md-block">
+                <h5><%=sliders[i].name%></h5>
+                <p><%=sliders[i].description%></p>
+              </div>
+            </div>
+          <%}%>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="sidebar">
+        <div class="left-sidebar">
+          <div class="title">
+            <h3>Danh mục</h3>
+          </div>
+          <ul class="cartegory-list">
+            <%for(let i=0;i<cartegory.length;i++){%>
+              <%if(cartegory[i].parent_id===0){%>
+                  <li><a href="/getProductByCartegoryId/<%=cartegory[i].id%>"><%=cartegory[i].name%></a>
+                      <ul class="cartegory-parent">
+                          <%for(let j=0;j<cartegory.length;j++){%>
+                              <%if(cartegory[j].parent_id===cartegory[i].id){%>
+                                  <li><a href="/getProductByCartegoryId/<%=cartegory[j].id%>"><%=cartegory[j].name%></a>
+                                      <ul class="cartegory-child">
+                                          <%for(let k=0;k<cartegory.length;k++){%>
+                                              <%if(cartegory[k].parent_id===cartegory[j].id){%>
+                                                  <li><a href="/getProductByCartegoryId/<%=cartegory[k].id%>"><%=cartegory[k].name%></a>
+                                                  </li>
+                                              <%}%>
+                                          <%}%>
+                                      </ul>
+                                  </li>
+                              <%}%>
+                          <%}%>
+                      </ul>
+                  </li>
+              <%}%>
+          <%}%>
+          </ul>
+        </div>
+        <div class="right-sidebar">
+          <div class="body-product">
+            <div class="title"><h4>Sản phẩm mới</h4></div>
+            <div class="show-product">
+              <%for(let i=0;i<dataProductOrderCreate.length;i++){%>
+                <form action="/addToCart/<%=dataProductOrderCreate[i].id%>" method="post" class="card-image">
+                  <div class="items">
+                    <div class="image">
+                      <img class="slider-image" src="<%=dataProductOrderCreate[i].feature_image%>" alt="">
+                    </div>
+                    <div class="text">
+                      <h3><%=dataProductOrderCreate[i].name%></h3>
+                      <p><%= dataProductOrderCreate[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></p>
+                    </div>
+                    <div class="button">
+                      <a href="/getDetailProductShop/<%=dataProductOrderCreate[i].id%>">Xem chi tiết</a>
+                      <button>Thêm vào giỏ</button>
+                    </div>
+                  </div>
+                </form>
+              <%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="body-product">
+        <div class="title"><h4>Sản phẩm được quan tâm nhiều</h4></div>
+        <div class="show-product">
+          <% for(let i=0;i<dataProductOrderViewCount.length;i++){%>
+            <form action="/addToCart/<%=dataProductOrderViewCount[i].id%>" method="post" class="card-image">
+              <div class="items">
+                <div class="image">
+                  <img class="slider-image" src="<%=dataProductOrderViewCount[i].feature_image%>" alt="">
+                </div>
+                <div class="text">
+                  <h3><%=dataProductOrderViewCount[i].name%></h3>
+                  <p><%= dataProductOrderViewCount[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></p>
+                </div>
+                <div class="button">
+                  <a href="/getDetailProductShop/<%=dataProductOrderViewCount[i].id%>">Xem chi tiết</a>
+                  <button>Thêm vào giỏ</button>
+                </div>
+              </div>
+            </form>
+          <%}%>
+        </div>
+      </div>
+      
+    </div>
+    <%- include('../shop/footer.ejs') %>
+</body>
+</html>

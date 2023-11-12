@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <%- include('../shop/menuShop.ejs') %>
+    <div class="body container mt-2">
+        <div class="title text-center text-uppercase text-danger">
+            <h4>Giỏ hàng</h4>
+        </div>
+
+        <table class="table shopping-cart-list">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng giá</th>
+                <th scope="col">Xóa</th>
+              </tr>
+            </thead>
+            <tbody>
+                <%if(products.length<=0){%>
+                  <tr>
+                    <td colspan="7" align="center">Chưa có sản phẩm trong giỏ hàng</td>
+                  </tr>
+                <%}else{%>
+                  <%let total=0%>
+                  <% for(let i=0;i<products.length;i++){%>
+                    <%total=total+products[i].price * products[i].quantity%>
+                    <form action="/deleteToCart/<%=products[i].id%>" method="post">
+                        <tr>
+                          <td scope="row" class="col-1"><%=i+1%></td>
+                          <td class="col-2">
+                            <img class="product-img" src="<%=products[i].feature_image%>" alt="">
+                          </td>
+                          <td class="col-2"><%=products[i].name%></td>
+                          <td class="col-2"><%=products[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                          <td class="col-2">
+                            <a class="btn btn-cart <%=products[i].quantity==1?'disable':''%>" href="/updateToCart/<%=products[i].id%>?action=remove">-</a>
+                            <span><%=products[i].quantity%></span>
+                            <a class="btn btn-cart" href="/updateToCart/<%=products[i].id%>?action=add">+</a>
+                          </td>
+                          <td class="col-2"><%=(products[i].price * products[i].quantity).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                          <td class="col-1">
+                              <button class="btn"><i class="far fa-trash-alt"></i></button>
+                          </td>
+                        </tr>
+                    </form>
+                  <%}%>
+                    <tr>
+                      <td colspan="7" align="right"><b>Total: </b><%=total.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" align="right">
+                        <a class="btn btn-warning" href="/">Mua thêm sản phẩm khác</a>
+                        <a class="btn btn-info" href="/payShopPage">Thanh toán</a>
+                      </td>
+                    </tr>
+                  <%}%>
+            </tbody>
+        </table>
+    </div>
+    <%- include('../shop/footer.ejs') %>
+</body>
+</html>

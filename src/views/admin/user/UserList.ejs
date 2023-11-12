@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../../partials/head') %>
+</head>
+<body>
+  <%- include('../../partials/menu') %>
+  <div class="admin-container">
+      <%- include('../../partials/slider') %>
+      <div class="admin-right">
+          <div class="row">
+              <div class="col-12"><h3>Vai trò</h3></div>
+              <div class="col-md-12 mb-2">
+                <%if(lcAuthUser.role_id==='R4'){%>
+                <a href="/userCreate" class="btn btn-primary float-end">Add</a>
+                <%}%>
+              </div>
+              <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col-2">STT</th>
+                        <th scope="col-2">Họ tên</th>
+                        <th scope="col-2">Email</th>
+                        <%if(lcAuthUser.role_id==='R4'){%>
+                        <th scope="col-2">Action</th>
+                        <%}%>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(let i=0;i<data.length;i++){ %>
+                        <form action="/userDelete" method="post">
+                          <tr>
+                          <th scope="row" class="col-2"><%= i+1 %></th>
+                          <td class="col-2"><%= data[i].name %></td>
+                          <td class="col-2"><%= data[i].email%></td>
+                          <%if(lcAuthUser.role_id==='R4'){%>
+                          <td class="col-2">
+                            <a href="/userEdit/<%=data[i].id %>" class="btn btn-success">Sửa</a>
+                              <input type="text" name="id" value="<%=data[i].id %>" hidden>
+                              <button class="btn btn-danger">Xóa</button>
+                          </td>
+                          <%}%>
+                        </tr>
+                      </form>
+                      <% } %>
+                    </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+    </div>
+</body>
+</html>

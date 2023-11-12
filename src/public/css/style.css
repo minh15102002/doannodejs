@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+.admin-container {
+  display: flex;
+}
+
+.admin-left {
+  background-color: #333;
+  color: white;
+  width: 25%;
+  min-height: 100vh;
+}
+
+.admin-left .admin-top {
+  border-bottom: 1px solid gray;
+}
+
+.admin-left .admin-top img {
+  width: 50px;
+  height: 50px;
+  border: 1px solid gray;
+  border-radius: 50%;
+}
+
+.admin-container .admin-left li {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.admin-container .admin-left li a {
+  text-decoration: none;
+  color: white;
+}
+
+.admin-container .admin-right {
+  margin-left: 30px;
+  width: 70%;
+}
+
+.login-container {
+  background: linear-gradient(
+    135deg,
+    rgb(83, 17, 153) 0%,
+    rgb(11, 75, 187) 100%
+  );
+}
+
+.upload-img {
+  display: none;
+}
+
+.product-img {
+  width: 120px !important;
+  height: 100px !important;
+}
+
+.admin-menu {
+  padding: 5px 10px;
+  border-bottom: 1px solid #fff;
+  display: flex;
+  justify-content: space-between;
+  background-color: #333;
+  color: #ccc;
+}
+
+.admin-menu > .title {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.admin-menu-right {
+  display: flex;
+  gap: 15px;
+}
+
+.admin-menu-right > .log-out > button {
+  color: #ccc;
+  background-color: #333;
+  outline: none;
+  border: none;
+}
