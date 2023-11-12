@@ -2,6 +2,7 @@ import express from'express';
 import bodyParser from 'body-parser';
 import viewEngine from './config/viewEngine';
 import initWebRoutes from './route/web';
+import api from './route/api';
 import connectDB from './config/connectDB';
 const cors=require('cors');
 const session=require("express-session");
@@ -32,7 +33,7 @@ app.use(async(req,res,next)=>{
   next();
 })
 app.use(cookieParser())
-
+api(app);
 viewEngine(app);
 initWebRoutes(app);
 

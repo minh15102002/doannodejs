@@ -1,10 +1,9 @@
-import roleService from '../services/roleService';
+import roleService from '../../services/roleService';
 
 let getRoleList=async(req,res)=>{
     try {
         let data=await roleService.getAllRole();
-        res.render('admin/role/RoleList',{data});
-    } catch (error) {
+        res.json(data);    } catch (error) {
         console.log(error);
     }
 }
@@ -12,8 +11,7 @@ let getRoleList=async(req,res)=>{
 let getCreateRolePage=async(req,res)=>{
     try {
         let data=await roleService.getAllPermission()
-        res.render('admin/role/CreateRole',{data});
-    } catch (error) {
+        res.json(data);    } catch (error) {
         console.log(error);
     }
 }

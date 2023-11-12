@@ -28,28 +28,28 @@ const storage = multer.diskStorage({
 });
 
 const imageFilter = function (req, file, cb) {
-    // Accept images only
     if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
         req.fileValidationError = 'Only image files are allowed!';
         return cb(new Error('Only image files are allowed!'), false);
     }
     cb(null, true);
 };
-
 let upload = multer({ storage: storage, fileFilter: imageFilter });
 
 const initWebRoutes=(app)=>{
+    // user
     router.get("/",homeController.getHomePage);
     router.get("/cart",homeController.getCartShopPage);
     router.get('/payShopPage',homeController.getPayShopPage);
     router.post('/payToCart',homeController.payToCart);
-
+// user,admin
     router.get('/register',userController.getRegisterPage);
     router.post('/register',userController.postRegister);
     router.get('/login',authorization.checkAuthentication,userController.getLoginPage);
     router.post('/login',userController.handleLogin);
     router.post('/logout',authorization.checkAuthentication,userController.postLogout)
-    router.get('/userList',authorization.checkPerformission,userController.getUserList);
+// admin
+    router.get('/admin/userList',authorization.checkPerformission,userController.getUserList);
     router.get('/userCreate',authorization.checkPerformission,userController.getCreateUserPage);
     router.post('/userCreate',authorization.checkPerformission,userController.createNewUser);
     router.get('/userEdit/:id',authorization.checkPerformission,userController.getEditUserPage);
@@ -99,10 +99,10 @@ const initWebRoutes=(app)=>{
     router.get('/settingEdit/:id',authorization.checkPerformission,settingController.getEditSettingPage);
     router.post('/settingEdit/:id',authorization.checkPerformission,settingController.updateSetting);
 
-    router.get('/roleList',authorization.checkPerformission,roleController.getRoleList);
-    router.get('/roleEdit/:id',authorization.checkPerformission,roleController.getEditRolePage);
-    router.post('/roleEdit/:id',authorization.checkPerformission,roleController.updateRole);
-    router.post('/roleDelete',authorization.checkPerformission,roleController.deleteRole);
+    router.get('/admin/roleList',authorization.checkPerformission,roleController.getRoleList);
+    router.get('/admin/roleEdit/:id',authorization.checkPerformission,roleController.getEditRolePage);
+    router.post('/admin/roleEdit/:id',authorization.checkPerformission,roleController.updateRole);
+    router.post('/admin/roleDelete',authorization.checkPerformission,roleController.deleteRole);
 
     router.post('/addToCart/:id',orderController.addToCart);
     router.get('/updateToCart/:id',orderController.updateToCart);
